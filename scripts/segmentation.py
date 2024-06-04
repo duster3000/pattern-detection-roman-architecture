@@ -1,11 +1,11 @@
 import os
 import sys 
-sys.path.append('D:/semantic-discovery/src/')
+sys.path.append('../src/')
 import detector as de
 import extractor as ex
 import accumulator as ac
 import utils
-from functions import calculate_iou, compare_partition_with_labelme_annotation
+from functions_semantic_discovery import calculate_iou, compare_partition_with_labelme_annotation
 import cv2
 import numpy as np
 from skimage.segmentation import slic

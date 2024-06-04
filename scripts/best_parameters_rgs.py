@@ -1,3 +1,9 @@
+"""
+This script determines the best parameters for algorithm using random search and writes them to a CSV file.
+
+"""
+
+
 import os
 import sys 
 import csv
@@ -38,11 +44,11 @@ param_grid = {
     'ksize': [3, 5, 7, 9],
     'clipLimit': [2.0, 3.0, 4.0],
     'tileGridSize': [(8, 8), (16, 16)],
-    'D': [3, 5, 7, 9],
+    'D': [3, 5, 7, 9, 11],
     'GAMMA': [0.6, 0.7, 0.8],
     'COMPACTNESS': list(range(20, 27)),
-    'sigma_color': [50, 75, 100],
-    'sigma_space' : [50, 75, 100]
+    'sigma_color': [50, 75],
+    'sigma_space' : [50, 75]
     
 }
 

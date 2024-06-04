@@ -3,7 +3,6 @@ This script determines the best parameters for algorithm using random search and
 
 """
 
-
 import os
 import sys 
 import csv
@@ -16,7 +15,7 @@ from sklearn.metrics import jaccard_score
 import matplotlib.pyplot as plt
 import networkx as nx
 
-sys.path.append('../src/')
+sys.path.append('./src/')
 import detector as de
 import extractor as ex
 import accumulator as ac
@@ -24,11 +23,11 @@ import utils
 from functions_semantic_discovery import compare_partition_with_labelme_annotation
 
 # Define image and labelme annotation folder
-image_folder = "../dataset/trainset"
-labelme_folder = "../dataset/labels"
+image_folder = "./dataset/trainset"
+labelme_folder = "./dataset/labels"
 
 # Define output folder
-output_folder = '../output'
+output_folder = './output'
 
 # Define parameter ranges
 param_grid = {
@@ -64,7 +63,7 @@ csv_file = open('parameter_log.csv', 'w', newline='')
 csv_writer = csv.writer(csv_file)
 csv_writer.writerow(['Image', 'Segment', 'Parameters', 'IoU'])
 
-for _ in range(num_samples):
+for index, _ in enumerate(range(num_samples)):
     random_params = {
         'K': random.choice(param_grid['K']),
         'RADIUS': random.choice(param_grid['RADIUS']),
@@ -199,7 +198,7 @@ for _ in range(num_samples):
             print("rmask.shape: ", rmask.shape)
             mask_over_img = cv2.addWeighted(rmask, 0.5, img, 0.5, 0)
             print("mask_over_img.shape", mask_over_img.shape)
-            score, segment_iou_list = compare_partition_with_labelme_annotation(labelme_folder, image_file, pred)
+            score, segment_iou_list = compare_partition_with_labelme_annotation(labelme_folder, image_file, pred, index)
             print("IoU Score image:", score)
             image_iou_list.append(score)
             """

@@ -8,7 +8,7 @@ def calculate_iou(mask1, mask2):
     iou = np.sum(intersection) / np.sum(union)
     return iou
 
-def compare_partition_with_labelme_annotation(labelme_folder, image_file, partition):
+def compare_partition_with_labelme_annotation(labelme_folder, image_file, partition, index ):
     """
     Compare a partition with the LabelMe annotation for a given image.
 
@@ -21,7 +21,7 @@ def compare_partition_with_labelme_annotation(labelme_folder, image_file, partit
     """
     annotation_file = os.path.splitext(image_file)[0] + '.json'
     annotation_path = os.path.join(labelme_folder, annotation_file)
-    output_folder= "../output/comparison"
+    output_folder= "./output/comparison"
     if os.path.exists(annotation_path):
         with open(annotation_path, 'r') as f: # Load labelme annotation
             data = json.load(f)
@@ -54,9 +54,10 @@ def compare_partition_with_labelme_annotation(labelme_folder, image_file, partit
 
             # Save comparison image
             comparison_image = np.hstack((best_segment, label_mask))
-            output_filename = os.path.join(output_folder, f"comparison_{label}_{os.path.basename(image_file)}")
-            cv2.imwrite(output_filename, comparison_image)
-            print(f"Saved comparison image: {output_filename}")
+            output_filename = os.path.join(output_folder, f"comparison_{label}_{index}_{os.path.basename(image_file)}")
+            success = cv2.imwrite(output_filename, comparison_image)
+            if success:
+                print(f"Saved comparison image: {output_filename}")
 
         iou = img_iou = np.mean(segment_iou_list)
     else:

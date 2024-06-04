@@ -19,12 +19,13 @@ import json
 import random
 
 # Define image and labelme annotation folder
-image_folder = "D:/Thorsten M/Documenten/hoger onderwijs/4e jaar/masterproef/dataset/simpele bauornamentik afbeeldingen"
-labelme_folder = "D:/Thorsten M/Documenten/hoger onderwijs/4e jaar/masterproef/dataset/labels"
+image_folder = "./dataset/trainset"
+labelme_folder = "./dataset/labels"
 
 # Define output folder
-output_folder = 'd:/semantic-discovery/output/segmentation'
+output_folder = './segmentation'
 
+# Define parameters
 K = 5
 RADIUS = 10
 N_KEYPOINTS = 4000
@@ -40,6 +41,7 @@ D = 5
 GAMMA = 0.7
 COMPACTNESS = 22
 keypoints_detection_method = 'canny'
+
 params = {
         'K': K,
         'RADIUS': RADIUS,

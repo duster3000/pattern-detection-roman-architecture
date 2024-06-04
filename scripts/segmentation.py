@@ -1,6 +1,10 @@
+"""
+this script detects patterns and saves the segmentation masks as separate images
+"""
+
 import os
 import sys 
-sys.path.append('../src/')
+sys.path.append('./src/')
 import detector as de
 import extractor as ex
 import accumulator as ac
@@ -59,8 +63,6 @@ params = {
         'COMPACTNESS': COMPACTNESS,
         'keypoints_detection_method': keypoints_detection_method
     }
-
-keypoints_detection_method = 'canny'
 
 
 # Perform segmentation algorithm on each image using the parameters
@@ -162,7 +164,11 @@ for image_file in os.listdir(image_folder):
     if best_partition_nodes:
         # Perform segmentation and save
         param_str = '_'.join([f"{key}_{value}" for key, value in params.items()])
-        utils.spixel_segmentation_mask3(enhanced_img, best_partition_nodes, superpixels, output_folder, param_str, image_file )
+        original_image_basename = os.path.splitext(os.path.basename(image_path))[0]
+        segment_folder = os.path.join(output_folder,original_image_basename)
+        if not os.path.exists(segment_folder):
+            os.makedirs(segment_folder)
+        utils.spixel_segmentation_mask3(enhanced_img, best_partition_nodes, superpixels, segment_folder, param_str, image_file )
         """
         pred, rmask = utils.spixel_segmentation_mask(img, best_partition_nodes, superpixels)
         rmask = (rmask * 255.).astype('uint8')

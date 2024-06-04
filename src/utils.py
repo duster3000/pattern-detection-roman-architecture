@@ -177,7 +177,7 @@ def spixel_segmentation_mask(img, final_partition_nodes, segments, path="./"):
 
 
 def spixel_segmentation_mask2(img, final_partition_nodes, segments, path="./"):
-    """Creates segmentation mask to be overlayed on the image and saves it"""
+    """Creates binary mask for each pattern and saves it as a separate image"""
     
     sns.set_palette(sns.color_palette("Set1", n_colors=len(final_partition_nodes)))
     color_palette = sns.color_palette()
@@ -231,14 +231,11 @@ def spixel_segmentation_mask3(img, final_partition_nodes, segments, output_folde
         cropped_masked_img = masked_img[min_y:max_y+1, min_x:max_x+1]
 
         # Save the coordinates in a file
-        with open(os.path.join(output_folder, f"segment_{i}_{param_str}_{os.path.basename(image_file)}.json"), "w") as f:
+        with open(os.path.join(output_folder, f"segment_{i}_{param_str}_coords.json"), "w") as f:
             json.dump({"min_x": min_x, "max_x": max_x, "min_y": min_y, "max_y": max_y}, f)
 
         # Save the cropped masked image as a separate file
-        output_filename = os.path.join(output_folder, f"segment_{i}_{param_str}_{os.path.basename(image_file)}")
+        output_filename = os.path.join(output_folder, f"segment_{i}_{param_str}.jpg")
         cv2.imwrite(output_filename, cropped_masked_img)
 
         print(f"Saved image: {output_filename}")
-
-# Example usage
-# spixel_segmentation_mask3(img, final_partition_nodes, segments, output_folder, param_str, image_file)

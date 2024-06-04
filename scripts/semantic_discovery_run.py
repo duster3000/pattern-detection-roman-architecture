@@ -1,10 +1,14 @@
 """
+the unchanged code of semantic discovery with parameters at the top
+"""
+
+"""
 Charset: utf-8
 indentation: 4 spaces
 author : lakj
 """
 import sys  
-sys.path.insert(0, '../src')
+sys.path.append('./src/')
 
 import detector as de
 import extractor as ex
@@ -53,8 +57,8 @@ ALPHA = 1 # 1
 """
 The parameter used in the graph corrosion process to control the trade-off between the number of clusters and the density of connections within each cluster.
 """                          
-INPUT_FILE = "./img01.png" 
-OUTPUT_FILE = "../output/img01.png"  
+INPUT_FILE = "./dataset/trainset/Parion1.png" 
+OUTPUT_FILE = "./output/img01.png"  
 ####################################
 
 logger.info("read image")

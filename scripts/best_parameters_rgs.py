@@ -59,7 +59,7 @@ num_samples = 150
 average_iou_list = []
 
 # Open a CSV file for logging
-csv_file = open('parameter_log.csv', 'w', newline='')
+csv_file = open('/output/csv/parameter_log.csv', 'w', newline='')
 csv_writer = csv.writer(csv_file)
 csv_writer.writerow(['Image', 'Segment', 'Parameters', 'IoU'])
 

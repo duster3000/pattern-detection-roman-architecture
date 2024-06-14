@@ -17,7 +17,7 @@ from skimage.segmentation import mark_boundaries
 from sklearn.metrics import jaccard_score
 import matplotlib.pyplot as plt
 import networkx as nx
-
+from functions_semantic_discovery import *
 import itertools
 import json
 import random
@@ -168,16 +168,8 @@ for image_file in os.listdir(image_folder):
         segment_folder = os.path.join(output_folder,original_image_basename)
         if not os.path.exists(segment_folder):
             os.makedirs(segment_folder)
-        utils.spixel_segmentation_mask3(enhanced_img, best_partition_nodes, superpixels, segment_folder, param_str, image_file )
-        """
-        pred, rmask = utils.spixel_segmentation_mask(img, best_partition_nodes, superpixels)
-        rmask = (rmask * 255.).astype('uint8')
-        overlayed_img = cv2.addWeighted(original_img, 0.99, overlay_bgr, 0.99, 0)
-        mask_over_img = cv2.addWeighted(rmask, 0.4, overlayed_img, 0.4, 0)
-        output_filename = os.path.join(output_folder, f"{param_str}_{os.path.basename(image_file)}")
-        success = cv2.imwrite(os.path.join(output_folder, output_filename), mask_over_img)
-        print(success)
-        """
+        create_and_save_segmented_masks(enhanced_img, best_partition_nodes, superpixels, segment_folder, param_str, image_file )
+  
 
     else: 
         print("Error: Segmentation failed for image:", image_file)

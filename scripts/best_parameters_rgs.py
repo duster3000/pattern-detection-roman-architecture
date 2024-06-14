@@ -20,7 +20,7 @@ import detector as de
 import extractor as ex
 import accumulator as ac
 import utils
-from functions_semantic_discovery import compare_partition_with_labelme_annotation
+from functions_semantic_discovery import *
 
 # Define image and labelme annotation folder
 image_folder = "./dataset/trainset"
@@ -192,7 +192,7 @@ for index, _ in enumerate(range(num_samples)):
         if best_partition_nodes:
             print("Best partition nodes len:", len(best_partition_nodes))
             print("Best partition shape:", best_partition.shape)
-            pred, rmask = utils.spixel_segmentation_mask2(img, best_partition_nodes, superpixels)
+            pred, rmask = generate_binary_masks(img, best_partition_nodes, superpixels)
             rmask = (rmask * 255.).astype('uint8')
             print("pred shape: ", pred.shape)
             print("rmask.shape: ", rmask.shape)

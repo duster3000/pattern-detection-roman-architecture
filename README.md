@@ -1,25 +1,35 @@
 # Repeated pattern detection of architectural decoration in Roman Asia Minor
 
-Code van de masterproef 'AI-gebaseerde patroonherkenning van architecturale decoratie in Romeins Klein Azië'
+This repository contains code and resources for the master's thesis on AI-based pattern recognition of architectural decoration in Roman Asia Minor.
+
 
 ## Segmentation
-semantic_discovery.ipynb and semantic_discovery_run.py are code from https://github.com/francesco-p/semantic-discovery with minor changes.
+### Notebooks and Scripts
 
-semantic_discovery_median_bilateral_filter_clahe.ipynb is the algorithm with preprocessing.
+- 'semantic_discovery.ipynb' and 'semantic_discovery_run.py' are code from https://github.com/francesco-p/semantic-discovery with minor changes.
 
-best_parameters_rgs.py is the script to determine the best parameters using random search.
+- 'semantic_discovery_median_bilateral_filter_clahe.ipynb' is the algorithm with preprocessing.
 
-segmentation.py is the algorithm that cuts out the segmentation masks. The output is saved in 'segmentation', each image has a separate folder.
+- 'best_parameters_rgs.py' is the script to determine the optimal parameters using random search.
 
-The helper functions I made (with the help of ChatGPT) are in 'functions_semantic_discovery.py'. Other helper functions are in 'utils.py'.
+- 'segmentation.py' is the algorithm that cuts out the segmentation masks. The output is saved in 'segmentation', each image has a separate folder.
+### Helper Functions
+
+The helper functions I made (with the help of ChatGPT) are in 'functions_semantic_discovery.py'. 
+Other helper functions are in 'utils.py'.
 
 ## Frame Units using Bounding Boxes
+### Notebooks and Scripts
 
-main_boxes.ipynb and main_boxes.py is the algorithm that displays the boxes on a chosen image.
+- main_CNN_activations.py is the code from https://github.com/kyusbok/Repeated-Pattern-Detection-using-CNN-activations with added compression.
 
-The helper functions are in 'functions_boxes.py'
-adapted from https://github.com/kyusbok/Repeated-Pattern-Detection-using-CNN-activations/tree/master 
+- 'main_boxes.ipynb' and 'main_boxes.py' contain the algorithm that displays the boxes on a chosen image.
+### Helper Functions
+- The helper functions are in 'functions_boxes.py'. It includes a version of main_CNN_activations in the form of a function and other functions I made with the help of ChatGPT.
+## Combination
+- 'combination.py' executes segmentation.py and main_boxes.py sequentially on one image using some of the optimal parameters.
+
 ## Dataset
-'trainset' is the set that has been labeled using LabelMe, the labels are in 'labels'.
-'testset' are other random images from the dataset that have not been labeled.
-The full dataset is available at: https://kuleuven-my.sharepoint.com/:f:/g/personal/thorsten_mahieu_student_kuleuven_be/EjY8uU-2cp1Pps8e5YtXlywBK-qvhozsq0GX1lPDvjUG8w?e=QnF808 
+- 'trainset' Contains labeled images using LabelMe. Labels are stored in the 'labels' folder
+- 'testset' comprises other random images from the dataset that have not been labeled.
+The full dataset is available at [this SharePoint link](https://kuleuven-my.sharepoint.com/:f:/g/personal/thorsten_mahieu_student_kuleuven_be/EjY8uU-2cp1Pps8e5YtXlywBK-qvhozsq0GX1lPDvjUG8w?e=QnF808).

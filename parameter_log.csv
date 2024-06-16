@@ -1,2 +1,0 @@
-Image,Segment,Parameters,IoU
-DSC_0562 2023-10-02 21_20_57.JPG,0,"{'K': 7, 'RADIUS': 35, 'TAU': 1.0, 'N_SUPERPIXELS': 265, 'N_KEYPOINTS': 6000, 'SIGMA': 4, 'W': 9, 'ALPHA': 1.1, 'ksize': 7, 'clipLimit': 3.0, 'tileGridSize': (16, 16), 'D': 7, 'GAMMA': 0.7, 'COMPACTNESS': 21, 'keypoints_detection_method': 'canny', 'sigma_color': 50, 'sigma_space': 50}",0.1474600870827286

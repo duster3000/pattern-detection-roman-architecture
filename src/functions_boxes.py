@@ -29,9 +29,6 @@ preprocess_transform = transforms.Compose([transforms.ToTensor()])
 
 dev = torch.device("cuda")
 
-original_img_path = "D:/Thorsten M/Documenten/hoger onderwijs/4e jaar/masterproef/dataset/simpele bauornamentik afbeeldingen/Parion2.png"
-img_path = "D:/semantic-discovery/output/segmentation/segment_1_K_7_RADIUS_50_TAU_1.25_N_SUPERPIXELS_210_N_KEYPOINTS_6000_SIGMA_3_W_9_ALPHA_1.0_ksize_3_clipLimit_2.0_tileGridSize_(8, 8)_D_7_GAMMA_0.7_COMPACTNESS_22_keypoints_detection_method_canny_Parion2.png"
-
 
 def load_image(img_path):
     image = Image.open(img_path).convert('RGB')
@@ -77,7 +74,7 @@ def compress_image_with_fixed_pixels(img_path, target_pixels):
         return compressed_image, scale_factor, resized_img
 
 
-def get_boxes(img_path=img_path):
+def get_boxes(img_path):
     compressed_image, scale_factor, resized_img = compress_image_with_fixed_pixels(img_path, 260000)
     if compressed_image is not None:
         print("Image loaded")
@@ -333,7 +330,7 @@ def draw_bounding_boxes(ax, fig, coords, boxes, color):
         height = max_y - min_y
     
     # Draw vertical lines within the bounding box
-        if boxes is not None:
+        if boxes is not None and len(boxes) > 0: 
             # Draw a rectangle for the bounding box
             rect = Rectangle((min_x, min_y), width, height, linewidth=1.5, edgecolor=color, facecolor='none')
             ax.add_patch(rect)

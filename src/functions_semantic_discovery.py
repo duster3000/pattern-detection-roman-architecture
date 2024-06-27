@@ -114,7 +114,7 @@ def create_and_save_segmented_masks(img, superpixel_clusters, segments, output_f
         image_file (str): Filename of the input image for reference.
     """
 
-    sns.set_palette(sns.color_palette("Set1", n_colors=len(superpixel_clusters)))
+    #sns.set_palette(sns.color_palette("Set1", n_colors=len(superpixel_clusters)))
 
     # Create output folder if it doesn't exist
     os.makedirs(output_folder, exist_ok=True)
@@ -124,35 +124,108 @@ def create_and_save_segmented_masks(img, superpixel_clusters, segments, output_f
         for spixel in superpixels:
             mask[segments == spixel] = 255
 
-        # Find non-zero mask coordinates
-        y_coords, x_coords = np.where(mask == 255)
-        if len(x_coords) == 0 or len(y_coords) == 0:
-            print(f"No non-zero mask for segment {i}, skipping.")
-            continue
+        mask = mask.astype(np.uint8)
 
-        # Calculate bounding box coordinates
-        min_x = int(np.percentile(x_coords, 5))
-        max_x = int(np.percentile(x_coords, 95))
-        min_y = int(np.percentile(y_coords, 5))
-        max_y = int(np.percentile(y_coords, 95))
+        # Find connected components in the mask
+        num_labels, labels = cv2.connectedComponents(mask)
+        for label in range(1, num_labels):
+            label_mask = np.zeros_like(mask)
+            label_mask[labels == label] = 255
+            
+            # Apply the mask to the original image
+            masked_img_copy = masked_img.copy()
+            masked_img_copy[label_mask == 0] = [0, 0, 0]
+            
+            # Find the bounding box coordinates
+            y_coords, x_coords = np.where(label_mask == 255)
+            if len(x_coords) == 0 or len(y_coords) == 0:
+                print(f"No non-zero mask for segment {i}, label {label}, skipping.")
+                continue
+            
+            min_x = int(np.percentile(x_coords, 5))
+            max_x = int(np.percentile(x_coords, 95))
+            min_y = int(np.percentile(y_coords, 5))
+            max_y = int(np.percentile(y_coords, 95))
+                
+            # Create bounding box mask
+            bbox_mask = np.zeros_like(mask, dtype=np.uint8)
+            bbox_mask[min_y:max_y+1, min_x:max_x+1] = 255
 
-        # Create bounding box mask
-        bbox_mask = np.zeros_like(mask, dtype=np.uint8)
-        bbox_mask[min_y:max_y+1, min_x:max_x+1] = 255
+            # Apply bounding box mask to the original image
+            masked_img = cv2.bitwise_and(img, img, mask=bbox_mask)
 
-        # Apply bounding box mask to the original image
-        masked_img = cv2.bitwise_and(img, img, mask=bbox_mask)
+            # Crop the masked image to the bounding box
+            cropped_masked_img = masked_img[min_y:max_y+1, min_x:max_x+1]
 
-        # Crop the masked image to the bounding box
-        cropped_masked_img = masked_img[min_y:max_y+1, min_x:max_x+1]
+            # Save the coordinates in a file
+            coord_file = os.path.join(output_folder, f"segment_{i}_label_{label}_{param_str}_coords.json")
+            with open(coord_file, "w") as f:
+                json.dump({"min_x": min_x, "max_x": max_x, "min_y": min_y, "max_y": max_y}, f)
 
-        # Save the coordinates in a file
-        coord_file = os.path.join(output_folder, f"segment_{i}_{param_str}_coords.json")
-        with open(coord_file, "w") as f:
-            json.dump({"min_x": min_x, "max_x": max_x, "min_y": min_y, "max_y": max_y}, f)
+            # Save the cropped masked image as a separate file
+            output_filename = os.path.join(output_folder, f"segment_{i}_label_{label}_{param_str}.jpg")
+            cv2.imwrite(output_filename, cropped_masked_img)
 
-        # Save the cropped masked image as a separate file
-        output_filename = os.path.join(output_folder, f"segment_{i}_{param_str}.jpg")
-        cv2.imwrite(output_filename, cropped_masked_img)
+            print(f"Saved image: {output_filename} with coordinates saved to {coord_file}")
 
-        print(f"Saved image: {output_filename} with coordinates saved to {coord_file}")
+
+"""
+def spixel_segmentation_mask3(img, final_partition_nodes, segments, output_folder, param_str, image_file):
+    #Creates segmentation mask for each pattern and saves it as a separate image
+    sns.set_palette(sns.color_palette("Set1", n_colors=len(final_partition_nodes)))
+    color_palette = sns.color_palette()
+    img_height, img_width = img.shape[:-1]
+    
+    for i, superpixels in enumerate(final_partition_nodes):
+        masked_img = img.copy()
+        mask = np.zeros_like(segments, dtype=np.uint8)
+        
+        for spixel in superpixels:
+            mask[segments == spixel] = 255
+        
+        # Convert mask to 8-bit single-channel image
+        mask = mask.astype(np.uint8)
+        
+        # Find connected components in the mask
+        num_labels, labels = cv2.connectedComponents(mask)
+        
+        for label in range(1, num_labels):
+            label_mask = np.zeros_like(mask)
+            label_mask[labels == label] = 255
+            
+            # Apply the mask to the original image
+            masked_img_copy = masked_img.copy()
+            masked_img_copy[label_mask == 0] = [0, 0, 0]
+            
+            # Find the bounding box coordinates
+            y_coords, x_coords = np.where(label_mask == 255)
+            if len(x_coords) == 0 or len(y_coords) == 0:
+                print(f"No non-zero mask for segment {i}, label {label}, skipping.")
+                continue
+            
+            min_x = int(np.percentile(x_coords, 5))
+            max_x = int(np.percentile(x_coords, 95))
+            min_y = int(np.percentile(y_coords, 5))
+            max_y = int(np.percentile(y_coords, 95))
+                
+            # Create bounding box mask
+            bbox_mask = np.zeros_like(mask, dtype=np.uint8)
+            bbox_mask[min_y:max_y+1, min_x:max_x+1] = 255
+
+            # Apply bounding box mask to the original image
+            masked_img = cv2.bitwise_and(img, img, mask=bbox_mask)
+
+            # Crop the masked image to the bounding box
+            cropped_masked_img = masked_img[min_y:max_y+1, min_x:max_x+1]
+
+            # Save the coordinates in a file
+            coord_file = os.path.join(output_folder, f"segment_{i}_label_{label}_{param_str}_coords.json")
+            with open(coord_file, "w") as f:
+                json.dump({"min_x": min_x, "max_x": max_x, "min_y": min_y, "max_y": max_y}, f)
+            
+            # Save the cropped masked image as a separate file
+            output_filename = os.path.join(output_folder, f"segment_{i}_label_{label}_{param_str}_{os.path.basename(image_file)}")
+            cv2.imwrite(output_filename, cropped_masked_img)
+            print(f"Saved image: {output_filename}")
+
+"""

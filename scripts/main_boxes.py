@@ -17,7 +17,7 @@ import functions_boxes
 
 
 # Load original image
-original_image_path = "./dataset/trainset/DSC_0798 2023-10-05 12_04_19.JPG"
+original_image_path = "./dataset/trainset/DSC_0111 2023-10-02 13_42_04.JPG"
 original_image = cv2.imread(original_image_path)
 original_image_gray = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
 
@@ -41,7 +41,11 @@ for segment_image_path in segment_images_paths:
     # Check if the segment has a _lines_boxes image
     if not os.path.exists(lines_boxes_path):
         print(f"{lines_boxes_path} not found. Using CNN activations algorithm to create boxes.")
-        boxes = functions_boxes.get_boxes(segment_image_path)
+        try :
+            boxes = functions_boxes.get_boxes(segment_image_path)
+        except :
+            print(f"{lines_boxes_path} not found. Using CNN activations algorithm to create boxes.")
+            boxes = None
         # Save the _lines_boxes to a text file
         functions_boxes.save_boxes_to_json(boxes, lines_boxes_path)
        

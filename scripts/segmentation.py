@@ -24,7 +24,7 @@ import random
 
 # Define image and labelme annotation folder
 image_folder = "./dataset/trainset"
-labelme_folder = "./dataset/labels"
+#labelme_folder = "./dataset/labels"
 
 # Define output folder
 output_folder = './segmentation'

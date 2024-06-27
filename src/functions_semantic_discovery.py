@@ -132,9 +132,7 @@ def create_and_save_segmented_masks(img, superpixel_clusters, segments, output_f
             label_mask = np.zeros_like(mask)
             label_mask[labels == label] = 255
             
-            # Apply the mask to the original image
-            masked_img_copy = masked_img.copy()
-            masked_img_copy[label_mask == 0] = [0, 0, 0]
+
             
             # Find the bounding box coordinates
             y_coords, x_coords = np.where(label_mask == 255)

@@ -20,13 +20,13 @@ import json
 import csv
 from functions_boxes import *
 # Define image and labelme annotation folder
-image_folder = "./dataset/trainset"
+image_folder = "./dataset/testset"
 labelme_folder = "./dataset/labels"
 
 # Define output folder
 output_folder = './segmentation'
 
-image_file = "DSC_1054 2023-10-02 21_37_15.JPG"
+image_file = "aspendosDSC_0126 2023-10-02 12_30_34 2023-10-02 12_38_21.JPGdetail4.jpg"
 # Perform segmentation algorithm on each image using the parameters
 image_path = os.path.join(image_folder, image_file)
 FILENAME = image_path
@@ -53,7 +53,7 @@ with open('best_parameter_log.csv', mode='r') as file:
             'ALPHA': float(row['ALPHA']),
             'ksize': int(row['ksize']),
             'clipLimit': float(row['clipLimit']),
-            'tileGridSize': (int(row['tileGridSize_D']), int(row['tileGridSize_G'])),
+            'tileGridSize': eval(row['tileGridSize']),
             'D': int(row['D']),
             'GAMMA': float(row['GAMMA']),
             'COMPACTNESS': int(row['COMPACTNESS']),
@@ -72,6 +72,7 @@ with open('best_parameter_log.csv', mode='r') as file:
         ksize = params['ksize']
         clipLimit = params['clipLimit']
         tileGridSize = params['tileGridSize']
+        print(tileGridSize)
         D = params['D']
         GAMMA = params['GAMMA']
         COMPACTNESS = params['COMPACTNESS']

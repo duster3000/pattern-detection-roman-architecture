@@ -14,8 +14,8 @@ import detector as de
 import extractor as ex
 import accumulator as ac
 import utils
-import metrics
-import matplotlib.pyplot as plt
+#import metrics
+#import matplotlib.pyplot as plt
 import cv2
 import numpy as np
 from skimage.segmentation import slic

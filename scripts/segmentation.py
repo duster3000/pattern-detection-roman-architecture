@@ -9,18 +9,12 @@ import detector as de
 import extractor as ex
 import accumulator as ac
 import utils
-from functions_semantic_discovery import calculate_iou, compare_partition_with_labelme_annotation
 import cv2
 import numpy as np
 from skimage.segmentation import slic
 from skimage.segmentation import mark_boundaries
-from sklearn.metrics import jaccard_score
-import matplotlib.pyplot as plt
 import networkx as nx
 from functions_semantic_discovery import *
-import itertools
-import json
-import random
 
 # Define image and labelme annotation folder
 image_folder = "./dataset/trainset"

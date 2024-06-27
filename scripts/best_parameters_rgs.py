@@ -9,10 +9,7 @@ import csv
 import random
 import cv2
 import numpy as np
-import seaborn as sns
 from skimage.segmentation import slic
-from sklearn.metrics import jaccard_score
-import matplotlib.pyplot as plt
 import networkx as nx
 
 sys.path.append('./src/')

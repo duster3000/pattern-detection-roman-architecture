@@ -5,15 +5,12 @@ prepared example to show the drawing of the boxes
 
 import cv2
 import json
-import random
-from matplotlib.patches import Rectangle
-import numpy as np
 import matplotlib.pyplot as plt
 import os
 import sys
 sys.path.append('./src/')
 
-import functions_boxes
+from functions_boxes import *
 
 
 # Load original image
@@ -42,17 +39,17 @@ for segment_image_path in segment_images_paths:
     if not os.path.exists(lines_boxes_path):
         print(f"{lines_boxes_path} not found. Using CNN activations algorithm to create boxes.")
         try :
-            boxes = functions_boxes.get_boxes(segment_image_path)
+            boxes = get_boxes(segment_image_path)
         except :
             print(f"{lines_boxes_path} not found. Using CNN activations algorithm to create boxes.")
             boxes = None
         # Save the _lines_boxes to a text file
-        functions_boxes.save_boxes_to_json(boxes, lines_boxes_path)
+        save_boxes_to_json(boxes, lines_boxes_path)
        
     else:
         print(f"{lines_boxes_image_path} found. Using _lines_boxes image.")
         # Load the _lines_boxes 
-        boxes = functions_boxes.load_boxes_from_json(lines_boxes_path)
+        boxes = load_boxes_from_json(lines_boxes_path)
     # Check if the segment has a coordinate JSON file
     if os.path.exists(coords_json_path):
         with open(coords_json_path, "r") as f:
@@ -67,7 +64,7 @@ for segment_image_path in segment_images_paths:
         template_image_gray = cv2.cvtColor(template_image, cv2.COLOR_BGR2GRAY)
         
         # Perform template matching
-        top_left, match_val = functions_boxes.template_match(original_image_gray, template_image_gray)
+        top_left, match_val = template_match(original_image_gray, template_image_gray)
         print(f"Match value: {match_val}")
         
         # Define bounding box
@@ -80,7 +77,7 @@ for segment_image_path in segment_images_paths:
             json.dump(coords, f)
 
     # Draw bounding box on the original image
-    color = functions_boxes.random_color()
-    functions_boxes.draw_bounding_boxes(ax, fig, coords, boxes, color)
+    color = random_color()
+    draw_bounding_boxes(ax, fig, coords, boxes, color)
     
 plt.show()

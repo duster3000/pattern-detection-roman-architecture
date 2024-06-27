@@ -2,19 +2,21 @@ import os
 import pickle
 
 import torch
-import torch.nn as nn
-from torchvision import models, transforms
+from torchvision import  transforms
 from AlexNetConvLayers import alexnet_conv_layers
 
 import numpy as np
-import matplotlib.pyplot as plt
 
-from PIL import Image, ImageFilter
+from PIL import Image
 from scipy.ndimage.filters import maximum_filter, gaussian_filter
 from scipy.stats import multivariate_normal
 from skimage.feature import peak_local_max
 
 from utils import custom_plot
+
+"""
+original implementation from kyusbok with added compression
+"""
 
 
 #parameters

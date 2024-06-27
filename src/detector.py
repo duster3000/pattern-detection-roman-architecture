@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 
 class KeypointsDetector:
     """ This class purpose is to provide a set of meaningful keypoints where to compute a the descriptors """

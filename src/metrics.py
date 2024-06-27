@@ -1,5 +1,4 @@
 import numpy as np
-import time
 from sklearn.metrics import jaccard_score
 from scipy import stats
 from collections import defaultdict

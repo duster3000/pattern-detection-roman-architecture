@@ -1,14 +1,11 @@
 """
 This is temporary code, it is now under refactoring by the author. It is meant to be a working example for the reviewers
 """
-import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats as st
 import networkx as nx
 import seaborn as sns
-import os
-import json
     
 def draw_subgraphs(adj_mat, final_partition_nodes, maxw):
     """Displays retrieved subraphs"""

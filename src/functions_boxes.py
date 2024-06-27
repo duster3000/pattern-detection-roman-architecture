@@ -1,15 +1,15 @@
 import os
 import pickle
 import torch
-import torch.nn as nn
-from torchvision import models, transforms
+#import torch.nn as nn
+from torchvision import transforms
 from AlexNetConvLayers import alexnet_conv_layers
 import json
 import random
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
-from PIL import Image, ImageFilter
+from PIL import Image
 from scipy.ndimage import maximum_filter, gaussian_filter
 from scipy.stats import multivariate_normal
 from skimage.feature import peak_local_max

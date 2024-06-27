@@ -53,7 +53,7 @@ with open('best_parameter_log.csv', mode='r') as file:
             'ALPHA': float(row['ALPHA']),
             'ksize': int(row['ksize']),
             'clipLimit': float(row['clipLimit']),
-            'tileGridSize': (int(row['tileGridSize_D']), int(row['tileGridSize_G'])),
+            'tileGridSize': eval(row['tileGridSize']),
             'D': int(row['D']),
             'GAMMA': float(row['GAMMA']),
             'COMPACTNESS': int(row['COMPACTNESS']),
